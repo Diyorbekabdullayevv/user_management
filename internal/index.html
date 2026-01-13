@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 User Management</h1>
+            <p>Register new users and filter by age range</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="register">Register User</button>
+            <button class="tab-button" data-tab="filter">Find Users</button>
+        </div>
+
+        <!-- Register Tab -->
+        <div id="register" class="tab-content active">
+            <form id="userForm">
+                <div class="form-group">
+                    <label for="name">First Name</label>
+                    <input type="text" id="name" name="name" required placeholder="John">
+                </div>
+
+                <div class="form-group">
+                    <label for="surname">Last Name</label>
+                    <input type="text" id="surname" name="surname" required placeholder="Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" required placeholder="25" min="0" max="150">
+                </div>
+
+                <button type="submit">Register User</button>
+            </form>
+
+            <div id="registerMessage" class="message"></div>
+            <div id="registerLoading" class="loading">⏳ Registering user...</div>
+        </div>
+
+        <!-- Filter Tab -->
+        <div id="filter" class="tab-content">
+            <div class="filter-info">
+                📊 Filter users by age range. Enter minimum and maximum age values.
+            </div>
+
+            <form id="filterForm">
+                <div class="age-inputs">
+                    <div class="form-group">
+                        <label for="minAge">Minimum Age</label>
+                        <input type="number" id="minAge" name="minAge" required placeholder="18" min="0" max="150">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxAge">Maximum Age</label>
+                        <input type="number" id="maxAge" name="maxAge" required placeholder="65" min="0" max="150">
+                    </div>
+                </div>
+
+                <button type="submit">Search Users</button>
+            </form>
+
+            <div id="filterMessage" class="message"></div>
+            <div id="filterLoading" class="loading">🔍 Searching users...</div>
+            <div id="usersContainer"></div>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

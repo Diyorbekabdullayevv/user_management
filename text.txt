@@ -1,0 +1,130 @@
+package main
+
+import (
+	"fmt"
+	"mongodb-project/internal"
+
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	port := ":8080"
+	server := gin.Default()
+
+	server.GET("/get-user", internal.GetUser)
+	server.POST("/create-user", internal.CreateUser)
+
+	fmt.Println("Server running on port: ", port)
+	server.Run(port)
+}
+
+----------------------------------------------------------------------
+
+package db
+
+import (
+	"context"
+	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+var Client *mongo.Client
+
+func Connect(uri string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+	if err != nil {
+		return err
+	}
+
+	// Ping to verify connection
+	if err := client.Ping(ctx, nil); err != nil {
+		return err
+	}
+
+	Client = client
+	return nil
+}
+
+func GetCollection(dbName, collection string) *mongo.Collection {
+	return Client.Database(dbName).Collection(collection)
+}
+
+----------------------------------------------------------------------
+
+package internal
+
+import (
+	"context"
+	"mongodb-project/db"
+	"mongodb-project/models"
+	"net/http"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+func CreateUser(c *gin.Context) {
+	var product models.Product
+
+	if err := c.ShouldBindJSON(&product); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	collection := db.GetCollection("user", "name")
+
+	result, err := collection.InsertOne(ctx, product)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	product.ID = result.InsertedID.(primitive.ObjectID)
+
+	c.JSON(http.StatusCreated, product)
+}
+
+func GetUser(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	collection := db.GetCollection("user", "name")
+
+	cursor, err := collection.Find(ctx, bson.M{})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	defer cursor.Close(ctx)
+
+	var products []models.Product
+	if err := cursor.All(ctx, &products); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, products)
+}
+
+------------------------------------------------------------------------------------
+
+package models
+
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
+type Product struct {
+	ID      primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Name    string             `bson:"name" json:"name"`
+	Surname int                `bson:"surname" json:"surname"`
+	Age     int                `bson:"age" json:"age"`
+}
