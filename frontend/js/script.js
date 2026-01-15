@@ -1,4 +1,35 @@
-// Tab switching functionality
+// Page Navigation
+const navLinks = document.querySelectorAll('.nav-link');
+const pages = document.querySelectorAll('.page');
+
+function navigateTo(pageName) {
+    // Remove active class from all
+    navLinks.forEach(l => l.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    
+    // Add active class to corresponding page and nav link
+    const navLink = document.querySelector(`[data-page="${pageName}"]`);
+    if (navLink) {
+        navLink.classList.add('active');
+    }
+    document.getElementById(pageName).classList.add('active');
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
+}
+
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const pageName = link.getAttribute('data-page');
+        navigateTo(pageName);
+    });
+});
+
+// Set home as active by default
+document.querySelector('[data-page="home"]').classList.add('active');
+
+// Tab switching functionality (for Users page)
 const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
 
@@ -15,6 +46,12 @@ tabButtons.forEach(button => {
         document.getElementById(tabName).classList.add('active');
     });
 });
+
+// Set first tab as active by default
+if (tabButtons.length > 0) {
+    tabButtons[0].classList.add('active');
+    tabContents[0].classList.add('active');
+}
 
 // User Registration Form
 const registerForm = document.getElementById('userForm');

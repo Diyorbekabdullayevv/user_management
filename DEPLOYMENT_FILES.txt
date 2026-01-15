@@ -1,0 +1,221 @@
+================================================================================
+  AWS EC2 DEPLOYMENT - FILES & STRUCTURE
+================================================================================
+
+PROJECT LOCATION:
+  /home/dev-diego/Desktop/VSCode/MongoDB-Project/
+
+================================================================================
+📦 DOCKER & DEPLOYMENT FILES
+================================================================================
+
+dockerfile                       → Docker image configuration
+  - Updated for new backend/frontend structure
+  - Multi-stage build (faster images)
+  - Serves frontend from /frontend folder
+
+deploy.sh                        → Build & Push to AWS ECR
+  - Builds Docker image locally
+  - Tags for ECR
+  - Pushes to AWS ECR
+  - USAGE: chmod +x deploy.sh && ./deploy.sh
+
+ec2-setup.sh                     → Automated EC2 Setup
+  - Runs on EC2 instance
+  - Handles AWS CLI installation
+  - ECR login, image pull, container run
+  - USAGE: Copy to EC2 and run ./ec2-setup.sh
+
+================================================================================
+📖 DEPLOYMENT GUIDES (Choose one to follow)
+================================================================================
+
+DEPLOYMENT_QUICK_START.md        → 5-10 minute quick start
+  - Fastest path to deployment
+  - Step-by-step with command examples
+  - For experienced users
+
+COMPLETE_DEPLOYMENT_GUIDE.md     → Detailed step-by-step
+  - 30-minute comprehensive guide
+  - Includes troubleshooting
+  - Best practices included
+
+AWS_DEPLOYMENT.md                → Advanced/Technical guide
+  - Detailed architecture explanation
+  - Environment variables
+  - Custom configurations
+  - Multiple deployment options
+
+DEPLOYMENT_CHECKLIST.md          → Verification checklist
+  - Item-by-item checklist
+  - Quick reference
+  - Pre-deployment verification
+
+================================================================================
+🏗️ PROJECT STRUCTURE
+================================================================================
+
+backend/
+  ├── cmd/
+  │   └── main.go                → Server entry point
+  ├── db/
+  │   └── db.go                  → MongoDB connection
+  ├── internal/
+  │   ├── user.go                → User API handlers
+  │   └── docktor.go             → Other endpoints
+  ├── models/
+  │   └── models.go              → Data structures
+  ├── go.mod                      → Go dependencies
+  └── go.sum                      → Dependency hashes
+
+frontend/
+  ├── html/
+  │   └── index.html             → Main page
+  ├── css/
+  │   └── style.css              → Styling
+  └── js/
+      └── script.js              → Client logic
+
+================================================================================
+📦 DOCKER IMAGE STATUS
+================================================================================
+
+Image Name:      mongodb-user-app:latest
+Size:            64.4 MB
+Status:          ✅ Built and ready
+Registry:        AWS ECR (after push)
+
+================================================================================
+🚀 QUICK DEPLOYMENT STEPS
+================================================================================
+
+1. Update deploy.sh with your AWS details
+   AWS_ACCOUNT_ID, AWS_REGION, EC2_INSTANCE_IP, EC2_KEY_PATH
+
+2. Run: chmod +x deploy.sh && ./deploy.sh
+   (Builds and pushes image to ECR)
+
+3. SSH into EC2 instance
+
+4. Run: ec2-setup.sh (automatic setup)
+   OR manually follow AWS_DEPLOYMENT.md
+
+5. Update Security Group to allow HTTP (port 80)
+
+6. Visit: http://YOUR_EC2_PUBLIC_IP
+
+================================================================================
+🔗 DEPENDENCIES & VERSIONS
+================================================================================
+
+Go Version:      1.23
+Base Image:      golang:1.23 (build), alpine:latest (runtime)
+Gin Framework:   v1.11.0
+MongoDB Driver:  v1.17.6
+
+================================================================================
+📋 PRE-DEPLOYMENT REQUIREMENTS
+================================================================================
+
+✅ AWS Account with EC2 instance
+✅ Docker installed on EC2
+✅ AWS CLI installed locally
+✅ AWS credentials configured
+✅ EC2 key pair (.pem file)
+✅ EC2 public IP address
+✅ MongoDB running (local or remote)
+
+================================================================================
+🎯 PORTS & SERVICES
+================================================================================
+
+Local Development:
+  Frontend:      http://localhost:8080
+  API:           http://localhost:8080/api/*
+  MongoDB:       localhost:27017
+
+AWS EC2 (Production):
+  Frontend:      http://EC2_IP:80
+  API:           http://EC2_IP/api/*
+  MongoDB:       YOUR_MONGODB_HOST:27017
+
+================================================================================
+🔐 ENVIRONMENT VARIABLES
+================================================================================
+
+MONGO_URI (Required)
+  - Connection string to MongoDB
+  - Examples:
+    mongodb://localhost:27017
+    mongodb://192.168.1.100:27017
+    mongodb+srv://user:pass@atlas.mongodb.net/db
+
+================================================================================
+💡 USEFUL COMMANDS
+================================================================================
+
+LOCAL:
+  docker build -t mongodb-user-app:latest .     Build image
+  docker images                                  List images
+  docker run -d -p 80:8080 ...                  Run container
+
+EC2:
+  docker ps                                     List containers
+  docker logs -f mongodb-app                    View logs
+  docker stop mongodb-app                       Stop container
+  docker start mongodb-app                      Start container
+  docker restart mongodb-app                    Restart
+  docker rm mongodb-app                         Remove container
+
+AWS CLI:
+  aws ecr create-repository ...                 Create ECR repo
+  aws ecr get-login-password ...                ECR login
+  aws sts get-caller-identity                   Get account info
+  aws ec2 describe-instances                    List EC2 instances
+
+================================================================================
+📞 TROUBLESHOOTING
+================================================================================
+
+Problem: Docker image won't build
+  Solution: Check Go files are in backend/ folder
+
+Problem: Container won't start
+  Solution: Check docker logs -f mongodb-app
+
+Problem: Can't reach app from browser
+  Solution: Check Security Group allows port 80
+
+Problem: MongoDB connection error
+  Solution: Verify MONGO_URI, check if MongoDB is running
+
+================================================================================
+✅ DEPLOYMENT SUCCESS CHECKLIST
+================================================================================
+
+□ Docker image built successfully
+□ Image pushed to ECR
+□ Container running on EC2
+□ Security group allows HTTP (port 80)
+□ Can access http://EC2_IP in browser
+□ User registration form works
+□ User filtering works
+□ MongoDB connection established
+□ No errors in docker logs
+
+================================================================================
+📖 DOCUMENTATION FILES
+================================================================================
+
+README.md                        Project overview
+LEGACY_CLEANUP.md               Cleanup old files
+DEPLOYMENT_QUICK_START.md       Quick 5-10 min guide
+COMPLETE_DEPLOYMENT_GUIDE.md    Full 30 min guide
+AWS_DEPLOYMENT.md               Advanced guide
+DEPLOYMENT_CHECKLIST.md         Step checklist
+THIS FILE                       Structure overview
+
+================================================================================
+Last Updated: January 13, 2026
+Status: ✅ Ready for Deployment
+================================================================================

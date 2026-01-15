@@ -5,6 +5,7 @@ import (
 	"log"
 	"mongodb-project/db"
 	"mongodb-project/internal"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,21 +14,25 @@ func main() {
 	port := ":8080"
 
 	// 🔑 CONNECT TO MONGODB
-	if err := db.Connect("mongodb://localhost:27017"); err != nil {
+	mongoURI := os.Getenv("MONGO_URI")
+	if mongoURI == "" {
+		mongoURI = "mongodb://localhost:27017"
+	}
+	if err := db.Connect(mongoURI); err != nil {
 		log.Fatal("MongoDB connection failed:", err)
 	}
 
 	server := gin.Default()
 
 	// Serve CSS files
-	server.Static("/css", "../frontend/css")
+	server.Static("/css", "frontend/css")
 
 	// Serve JavaScript files
-	server.Static("/js", "../frontend/js")
+	server.Static("/js", "frontend/js")
 
 	// Frontend route - serve index.html
 	server.GET("/", func(c *gin.Context) {
-		c.File("../frontend/html/index.html")
+		c.File("frontend/html/index.html")
 	})
 
 	server.GET("/ping", func(c *gin.Context) {

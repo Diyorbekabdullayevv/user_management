@@ -3,74 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management System</title>
+    <title>Diyorbek's Website</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>👥 User Management</h1>
-            <p>Register new users and filter by age range</p>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-button active" data-tab="register">Register User</button>
-            <button class="tab-button" data-tab="filter">Find Users</button>
-        </div>
-
-        <!-- Register Tab -->
-        <div id="register" class="tab-content active">
-            <form id="userForm">
-                <div class="form-group">
-                    <label for="name">First Name</label>
-                    <input type="text" id="name" name="name" required placeholder="John">
-                </div>
-
-                <div class="form-group">
-                    <label for="surname">Last Name</label>
-                    <input type="text" id="surname" name="surname" required placeholder="Doe">
-                </div>
-
-                <div class="form-group">
-                    <label for="age">Age</label>
-                    <input type="number" id="age" name="age" required placeholder="25" min="0" max="150">
-                </div>
-
-                <button type="submit">Register User</button>
-            </form>
-
-            <div id="registerMessage" class="message"></div>
-            <div id="registerLoading" class="loading">⏳ Registering user...</div>
-        </div>
-
-        <!-- Filter Tab -->
-        <div id="filter" class="tab-content">
-            <div class="filter-info">
-                📊 Filter users by age range. Enter minimum and maximum age values.
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Diyorbek</div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active" data-page="home">Home</a>
+                <a href="#about" class="nav-link" data-page="about">About</a>
+                <a href="#users" class="nav-link" data-page="users">Users</a>
+                <a href="#contact" class="nav-link" data-page="contact">Contact</a>
             </div>
+        </div>
+    </nav>
 
-            <form id="filterForm">
-                <div class="age-inputs">
-                    <div class="form-group">
-                        <label for="minAge">Minimum Age</label>
-                        <input type="number" id="minAge" name="minAge" required placeholder="18" min="0" max="150">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="maxAge">Maximum Age</label>
-                        <input type="number" id="maxAge" name="maxAge" required placeholder="65" min="0" max="150">
-                    </div>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to Diyorbek's Website</h1>
+                <p class="hero-subtitle">Discover amazing features and manage users with elegance</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="navigateTo('users')">Explore Users</button>
+                    <button class="btn btn-secondary" onclick="navigateTo('about')">Learn More</button>
                 </div>
+            </div>
+            <div class="hero-image">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </div>
 
-                <button type="submit">Search Users</button>
-            </form>
+        <!-- Features Section -->
+        <section class="features">
+            <h2>Amazing Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Experience blazingly fast performance with optimized backend</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Beautiful Design</h3>
+                    <p>Modern UI with smooth animations and intuitive navigation</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Reliable</h3>
+                    <p>Your data is safe with our robust database management</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Responsive</h3>
+                    <p>Works perfectly on all devices - desktop, tablet, and mobile</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-time Updates</h3>
+                    <p>Instant synchronization with live user management</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3>Premium Quality</h3>
+                    <p>Crafted with attention to detail and best practices</p>
+                </div>
+            </div>
+        </section>
 
-            <div id="filterMessage" class="message"></div>
-            <div id="filterLoading" class="loading">🔍 Searching users...</div>
-            <div id="usersContainer"></div>
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stat-item">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Users Managed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="page-content">
+            <h1>About Diyorbek</h1>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to my personal website! I'm passionate about creating beautiful and functional web applications that solve real-world problems.</p>
+                    <p>This website showcases a modern user management system built with cutting-edge technologies including:</p>
+                    <ul class="tech-list">
+                        <li>Go (Gin Framework) - Lightning-fast backend</li>
+                        <li>MongoDB - Flexible data storage</li>
+                        <li>Modern Frontend - Beautiful UI with responsive design</li>
+                        <li>Docker - Containerized deployment</li>
+                        <li>AWS - Cloud infrastructure</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Users Page -->
+    <div id="users" class="page">
+        <div class="page-content">
+            <h1>User Management System</h1>
+            
+            <div class="tabs">
+                <button class="tab-button active" data-tab="register">Register User</button>
+                <button class="tab-button" data-tab="filter">Find Users</button>
+            </div>
+
+            <!-- Register Tab -->
+            <div id="register" class="tab-content active">
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="name">First Name</label>
+                        <input type="text" id="name" name="name" required placeholder="John">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="surname">Last Name</label>
+                        <input type="text" id="surname" name="surname" required placeholder="Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" required placeholder="25" min="0" max="150">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register User</button>
+                </form>
+
+                <div id="registerMessage" class="message"></div>
+                <div id="registerLoading" class="loading">⏳ Registering user...</div>
+            </div>
+
+            <!-- Filter Tab -->
+            <div id="filter" class="tab-content">
+                <div class="filter-info">
+                    📊 Filter users by age range. Enter minimum and maximum age values.
+                </div>
+
+                <form id="filterForm">
+                    <div class="age-inputs">
+                        <div class="form-group">
+                            <label for="minAge">Minimum Age</label>
+                            <input type="number" id="minAge" name="minAge" required placeholder="18" min="0" max="150">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maxAge">Maximum Age</label>
+                            <input type="number" id="maxAge" name="maxAge" required placeholder="65" min="0" max="150">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Search Users</button>
+                </form>
+
+                <div id="filterMessage" class="message"></div>
+                <div id="filterLoading" class="loading">🔍 Searching users...</div>
+                <div id="usersContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="page-content">
+            <h1>Get In Touch</h1>
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="contactName">Your Name</label>
+                        <input type="text" id="contactName" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Your Email</label>
+                        <input type="email" id="contactEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message</label>
+                        <textarea id="contactMessage" rows="5" required placeholder="Your message here..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Diyorbek's Website. All rights reserved. ✨</p>
+    </footer>
 
     <script src="/js/script.js"></script>
 </body>
